@@ -1,0 +1,9 @@
+streamlit
+tensorflow
+tensorflow_hub
+tensorflow_text
+plotly
+nltk
+pandas
+numpy
+scikit-learn
