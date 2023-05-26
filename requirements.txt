@@ -7,3 +7,5 @@ nltk
 pandas
 numpy
 scikit-learn
+transformers
+opentsne
