@@ -40,7 +40,7 @@ def get_sentences_from_file(st, file):
         if len(header) != 1:
             st.error("CSV file should have only one column.")
             return []
-        sentences = [row[0] for row in csv_reader]
+        sentences = [row[0] for row in csv_reader if len(row) == 1]
         return sentences
     else:
         text = file.read().decode("utf-8")
