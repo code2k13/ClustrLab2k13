@@ -9,6 +9,10 @@ import io
 import plotly.graph_objects as go
 nltk.download('punkt')
 nltk.download('stopwords')
+import numpy as np
+from transformers import pipeline
+from sklearn import preprocessing
+from sklearn.cluster import KMeans
 
 
 def extract_keywords2(text, num_keywords):
@@ -26,7 +30,6 @@ def extract_keywords2(text, num_keywords):
         return "undefined"
 
 
-# Function to calculate sentence embeddings
 def get_sentence_embeddings(model, sentences):
     embeddings = model(sentences)
     return embeddings
@@ -135,3 +138,45 @@ def plot_data(st, df_chunks):
 
     # Display the plot using Streamlit
     st.plotly_chart(fig, use_container_width=True)
+
+
+def order_scores(scores, score_labels, ordered_labels):
+    output = []
+    for lbl in ordered_labels:
+        output.append(scores[score_labels.index(lbl)])
+    return output
+
+
+def calculate_one_shot_embeddings(st, texts, labels, batch_size=4):
+    progress_bar = st.progress(0)
+    # Load the zero-shot classification pipeline
+    classifier = pipeline("zero-shot-classification")
+
+    num_texts = len(texts)
+    num_labels = len(labels)
+    num_batches = int(np.ceil(num_texts / batch_size))
+    zero_shot_scores = []
+
+    for i in range(num_batches):
+        start_idx = i * batch_size
+        end_idx = min((i + 1) * batch_size, num_texts)
+        batch_texts = texts[start_idx:end_idx]
+
+        # Perform the zero-shot classification using the batch of texts
+        batch_scores = classifier(batch_texts, labels)
+        print(batch_scores)
+
+        batch_scores_list = [order_scores(
+            scores['scores'], scores["labels"], labels.split(",")) for scores in batch_scores]
+        zero_shot_scores.extend(batch_scores_list)
+
+        progress_bar.progress((i + 1) / num_batches)
+
+    zero_shot_scores = np.array(zero_shot_scores)
+    return zero_shot_scores
+
+def get_visual_clusters(chunk_embeddings,n_visual_clusters):
+    clusterer = KMeans(n_clusters=n_visual_clusters)
+    cluster_labels = clusterer.fit_predict(
+    preprocessing.normalize(chunk_embeddings))
+    return cluster_labels
