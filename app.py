@@ -87,6 +87,7 @@ def main():
                         [np.mean(chunk, axis=0) for chunk, _ in chunks])
 
             else:
+                status_message.text("⚙️ Generating 0-shot encodings ...")
                 chunk_embeddings = ai_utils.calculate_one_shot_embeddings(
                     st, sentences, zero_shot_labels)
                 chunks = [([chunk_embeddings[idx]], [s])
