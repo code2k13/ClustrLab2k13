@@ -85,7 +85,7 @@ def process_file(input_file, use_zero_shot_embeddings, zero_shot_labels,
 
 
 def main():
-    st.set_page_config(page_title="Sentence Clustering", layout="wide")
+    st.set_page_config(page_title="Clustering Workbench", layout="wide")
     use_zero_shot_embeddings = st.sidebar.checkbox(
         'Use Zero Shot Embeddings', help='''Uses zero shot embedding pipeline to get embeddings for sentences.
          Chunking is not possible. Will be considerably slow without a GPU.''')
@@ -123,7 +123,7 @@ def main():
 
     # File uploader
     input_file = None
-    input_file = st.sidebar.file_uploader("Upload a text file", type=["txt", "csv"],
+    input_file = st.sidebar.file_uploader("Upload a text file", type=["txt", "csv","log"],
                                           help="Supports plain text and CSV. CSV should have only one column.")
     status_message = st.sidebar.empty()
     with st.spinner("Processing File ..."):
