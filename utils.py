@@ -143,7 +143,7 @@ def plot_data(st, df_chunks):
 def order_scores(scores, score_labels, ordered_labels):
     output = []
     for lbl in ordered_labels:
-        output.append(scores[score_labels.index(lbl)])
+        output.append(scores[score_labels.index(lbl.strip())])
     return output
 
 
