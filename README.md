@@ -1,5 +1,5 @@
-# Clustering Workbench
-Clustering Workbench is a powerful Python-based tool for clustering text, built using Streamlit. 
+# What is ClustrLab2k13 ?
+ClustrLab2k13 is a powerful Python-based tool for clustering text, built using Streamlit. 
 
 [![Video of the tool in action](https://img.youtube.com/vi/xI7giMvVZes/0.jpg)](https://www.youtube.com/watch?v=xI7giMvVZes)
 
