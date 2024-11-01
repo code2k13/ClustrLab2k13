@@ -1,7 +1,5 @@
 streamlit
-tensorflow
-tensorflow_hub
-tensorflow_text
+sentence_transformers
 plotly
 nltk
 pandas

@@ -1,19 +1,21 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
-from nltk.tokenize import sent_tokenize
 import nltk
+from nltk.tokenize import sent_tokenize
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import random
 import csv
 import io
 import plotly.graph_objects as go
-nltk.download('punkt')
-nltk.download('stopwords')
 import numpy as np
 from transformers import pipeline
 from sklearn import preprocessing
 from sklearn.cluster import KMeans
+import os
 
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
 
 def extract_keywords2(text, num_keywords):
     try:
@@ -31,7 +33,7 @@ def extract_keywords2(text, num_keywords):
 
 
 def get_sentence_embeddings(model, sentences):
-    embeddings = model(sentences)
+    embeddings = model.encode(sentences)
     return embeddings
 
 
@@ -150,7 +152,7 @@ def order_scores(scores, score_labels, ordered_labels):
 def calculate_one_shot_embeddings(st, texts, labels, batch_size=4):
     progress_bar = st.progress(0)
     # Load the zero-shot classification pipeline
-    classifier = pipeline("zero-shot-classification")
+    classifier = pipeline("zero-shot-classification",model="sentence-transformers/all-MiniLM-L6-v2")
 
     num_texts = len(texts)
     num_labels = len(labels)

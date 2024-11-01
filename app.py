@@ -3,13 +3,13 @@ import numpy as np
 import pandas as pd
 from openTSNE import TSNE
 import base64
-import tensorflow_hub as hub
-import tensorflow_text  # dont remove this !
+from sentence_transformers import SentenceTransformer
 import utils
 
+
+
 if 'sentence_encoder' not in st.session_state:
-    st.session_state['sentence_encoder'] = hub.load(
-        "https://tfhub.dev/google/universal-sentence-encoder-multilingual/3")
+    st.session_state['sentence_encoder'] = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
     st.session_state["tsner"] = TSNE()
 
 
@@ -18,7 +18,6 @@ def process_file(input_file, use_zero_shot_embeddings, zero_shot_labels,
 
     status_message.text("📖 Reading file ...")
     sentences = utils.get_sentences_from_file(st, input_file)
-
     if sentences == None or len(sentences) < 10:
         st.error("Need atleast more than 10 data items, aborting !")
         return
